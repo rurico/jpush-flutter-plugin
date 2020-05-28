@@ -360,15 +360,16 @@ static NSMutableArray<FlutterResult>* getRidResults;
     result(@"");
 #elif TARGET_OS_IPHONE//真机
     
+    NSString *registrationID = [JPUSHService registrationID];
     
-    if ([JPUSHService registrationID] != nil && ![[JPUSHService registrationID] isEqualToString:@""]) {
+    if (registrationID != nil && ![registrationID isEqualToString:@""]) {
         // 如果已经成功获取 registrationID，从本地获取直接缓存
-        result([JPUSHService registrationID]);
+        result(registrationID);
         return;
     }
     
     if (_isJPushDidLogin) {// 第一次获取未登录情况
-        result(@[[JPUSHService registrationID]]);
+        result(registrationID);
     } else {
         [getRidResults addObject:result];
     }
